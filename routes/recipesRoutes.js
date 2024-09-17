@@ -13,6 +13,6 @@ router.delete('/logoutfromuser',requireAuth, recipecontroller.logoutfromuser_del
 
 router.post('/updatedata',requireAuth,recipecontroller.updatedata_post);
 
-
+router.post('/updategroceries', requireAuth,recipecontroller.updategroceries_post); 
 
 module.exports=router

@@ -54,3 +54,38 @@ module.exports.updatedata_post=async (req,res)=>{
     res.json({message:'done updating'})
 }
   
+module.exports.updategroceries_post= async (req, res) => {
+  let{username,groceries}=req.body
+  
+    let messegeback = {};
+    
+    let user = await User.findOne({ username: username });
+
+    if (!user) {
+        // Handle the case where the user is not found
+        messegeback.result = 'User not found.';
+        res.json(messegeback);
+        return;
+    }
+    else{
+      let name = user.username;
+      let pass = user.password;
+      let mail = user.email;
+      let previous = user.previousmails;
+      await User.findOneAndDelete({ username: name });
+
+      let newUser = new User({
+          username: name,
+          password: pass,
+          email: mail,
+          previousmails: previous,
+          groceries:groceries
+      });
+
+      await newUser.save();
+      messegeback.result = 'new groceries saved';
+      res.json(messegeback);
+        
+    }
+  
+}

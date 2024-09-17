@@ -17,6 +17,10 @@ const userSchema=new Schema({
     previousmails:{
         type:[String],
         required:false
+    },
+    groceries:{
+        type:[Number],
+        required:false
     }
 },{timestamps: true});
 
