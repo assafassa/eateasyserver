@@ -4,7 +4,7 @@ const mongoose=require('mongoose');
 const app =express();
 const cors = require("cors");
 const corsOptions = {
-  origin: /\.onrender\.com$/,
+  origin: "*",
   methods: "GET,HEAD,PUT,PATCH,POST,DELETE",};
 app.use(cors(corsOptions));
 app.use(express.json());
