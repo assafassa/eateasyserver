@@ -4,7 +4,10 @@ const mongoose=require('mongoose');
 const app =express();
 const cors = require("cors");
 const corsOptions = {
-  origin: "*",
+  origin: function (origin, callback) {
+    // Allow requests from any origin
+    callback(null, origin);
+  },
   methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
   credentials: true,
   allowedHeaders: "Content-Type,Authorization"
