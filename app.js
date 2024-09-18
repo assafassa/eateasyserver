@@ -6,7 +6,9 @@ const cors = require("cors");
 const corsOptions = {
   origin: "*",
   methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
-  credentials: true};
+  credentials: true,
+  allowedHeaders: "Content-Type,Authorization"
+};
 app.use(cors(corsOptions));
 app.use(express.json());
 const recipesRoutes=require('./routes/recipesRoutes');
