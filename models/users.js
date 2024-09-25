@@ -19,7 +19,11 @@ const userSchema=new Schema({
         required:false
     },
     groceries:{
-        type:[Number],
+        type:[String],
+        required:false
+    },
+    cart:{
+        type:[String],
         required:false
     }
 },{timestamps: true});

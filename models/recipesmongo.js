@@ -1,14 +1,13 @@
 const mongoose=require('mongoose');
 let Schema=mongoose.Schema;
 let recipeSchema=new Schema({
-    Id:{
-        type: String,
-        required:true
-
-    },
     title: {
         type: String,
         required:true
+    },
+    photolink: {
+        type: String,
+        required:false
     },
     link: {
         type: String,
@@ -16,7 +15,7 @@ let recipeSchema=new Schema({
     },
     recipe: {
         type: String,
-        required:true
+        required:false
     }
 },{timestamps: true});
 

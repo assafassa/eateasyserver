@@ -7,10 +7,10 @@ const secretkey='sKt408oGhEDVcX/su8oRkehvMoUkXvFtkkcvJdoNpqKO9ycQ.h0vIKA2s5QF0AV
 const cookieParser=require('cookie-parser');
 const jwt=require('jsonwebtoken');
 
-const maxAge=24*60*60
-function createtoken(id){
+const maxAge=24*60*60*365
+function createtoken(id,time){
     return jwt.sign({id},secretkey,{
-        expiresIn: maxAge
+        expiresIn: time
     });
 }
 
@@ -41,95 +41,114 @@ module.exports.signup_post=(req,res)=>{
         .catch((err)=>console.log(err))
 }
 
-const messagebodycreate='To verify your email copy and past the following code in the intended field.'
-const messagebodyreset='To reset your password copy and past the following code in the intended field.'
+const messagebodyreset="We received a request to reset your password for your Eat Easy account. If you made this request, please use the code below to reset your password and regain access to your account:"
+const messagebodycreate="You're almost ready to start enjoying Eat Easy. Just one more step! Use the code below to verify your email address and unlock access to delicious recipes and features."
 
 module.exports.signupverifymail_post=async (req,res)=>{
-    let {email,username, action}=req.body
+    
+    let {email, action}=req.body
+    
     let randomverifycode=(Math.floor(Math.random()*1000000)).toString()
-    let hashedverifycode=await bcrypt.hash((randomverifycode),13)
     let messagebody
     if (action=='create user'){
+
         messagebody=messagebodycreate
     }else if(action=='reset password'){
         messagebody=messagebodyreset
     }
     let mailhtml=
     `
-    
     <html lang="en">
     <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Eat Easy App</title>
+    <title>Eat Easy - Email Verification</title>
     <style>
         body {
-        background-color: rgb(255, 245, 220);
-        font-family:cursive;
-        font-size: 18px;
-        margin-top: 100px;
+        background-color: #fdfdfd;
+        font-family: 'Helvetica Neue', Arial, sans-serif;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        margin: 0;
         }
 
         .container {
-        max-width: 600px;
-        margin: 0 auto;
-        background-color:  rgb(255, 245, 220);
-        color:  rgb(51, 50, 47);
-        padding: 20px;
-        border: 5px;
-        border-style: solid;
-        border-color:  rgb( 255, 80, 43 );
-        
+        max-width: 500px;
+        background-color: #fff;
+        color: #333;
+        padding: 30px;
+        border-radius: 10px;
+        box-shadow: 0px 6px 18px rgba(0, 0, 0, 0.1);
+        text-align: center;
+        border: 2px solid #f14f4f;
         }
 
-        .title{
-        font-size: 50px;
-        text-align: center;
-        color: rgb( 255, 80, 43 );
+        .title {
+        font-size: 28px;
+        color: #f14f4f;
         font-weight: bold;
-        margin-bottom: 30px;
-        text-shadow: 1px 1px 0 rgb( 88, 87, 81 ),  
-        1px 1px 0 rgb(171, 165, 233),
-        1px 1px 0 rgb(133, 126, 195),
-        1px 1px 0 rgb(133, 126, 195);
+        margin-bottom: 20px;
         }
 
-        .messegeusername{
-        font-size:24px;
-        color:rgb(88, 87, 81);;
-        font-style: bold;
+        .messageusername {
+        font-size: 20px;
+        color: #555;
+        margin-bottom: 15px;
         }
 
-        .verefy-code {
-        background-color: rgb(255, 80, 43 );
-        color:rgb(255, 254, 252) ;
-        border: none;
-        width: 104px;
-        padding: 5px;
-        margin: 10px;  
-        text-align: center;
-        font-size: 25px;
-        margin-left: 240px;
-        
+        .messagebody {
+        font-size: 18px;
+        color: #555;
+        margin-bottom: 25px;
+        line-height: 1.5;
         }
 
-        
+        .verify-code {
+        background-color: #f14f4f;
+        color: white;
+        padding: 15px;
+        border-radius: 8px;
+        font-size: 22px;
+        font-weight: bold;
+        display: inline-block;
+        letter-spacing: 2px;
+        }
+
+        .cta {
+        margin-top: 30px;
+        font-size: 16px;
+        color: #777;
+        }
+
+        .footer {
+        margin-top: 40px;
+        font-size: 14px;
+        color: #999;
+        }
     </style>
     </head>
     <body>
     <div class="container">
-        <div class="title">Eat Easy</div>
-        <div class="messegeusername">
-            Hi ${username},
+        <div class="title">Confirm Your Email</div>
+        <div class="messageusername">
+        Hello There!
         </div>
-        <div class="messegebody">
-            ${messagebody}
+        <div class="messagebody">
+        ${messagebody}
         </div>
-        <div class="verefy-code">${randomverifycode}</div>
-    </div>  
-
+        <div class="verify-code">${randomverifycode}</div>
+        <div class="cta">
+        <p>Please enter this code in the app to confirm your email address.</p>
+        </div>
+        <div class="footer">
+        If you didn't request this, you can safely ignore this email.
+        </div>
+    </div>
     </body>
     </html>
+
     `
     
     let messegeback={}
@@ -152,11 +171,8 @@ module.exports.signupverifymail_post=async (req,res)=>{
         if(info.messageId){
             
             messegeback.result='messege sent'
-            messegeback.username=username
-            messegeback.email=email
-            messegeback.messageid=hashedverifycode
-            let premitivecookie=await bcrypt.hash((secretkey+'0'+username[0]+hashedverifycode[12]),13)
-            messegeback.premitivecookie=premitivecookie
+            let token= createtoken(randomverifycode,600)
+            res.cookie('jwt',token,{httpOnly:true, maxAge:600*1000})
             res.json(messegeback);
             
         }else{
@@ -169,120 +185,69 @@ module.exports.signupverifymail_post=async (req,res)=>{
 }
 
 module.exports.signupcheckcode_post=async (req,res)=>{
-    let messegeback=req.body
-    let {verifycode,messageid,premitivecookie,username}=req.body
-    let is0=await bcrypt.compare(secretkey+'0'+username[0]+messageid[12],premitivecookie)
-    let is1=await bcrypt.compare(secretkey+'1'+username[1]+messageid[12],premitivecookie)
-    let is2=await bcrypt.compare(secretkey+'2'+username[2]+messageid[12],premitivecookie)
-    if (is0){
-        premitivecookie=await bcrypt.hash((secretkey+'1'+username[1]+messageid[12]),13)
-    }else if (is1){
-        premitivecookie=await bcrypt.hash((secretkey+'2'+username[2]+messageid[12]),13)
-    }
-    messegeback.premitivecookie=premitivecookie
     
-    let isvalid =await bcrypt.compare(verifycode,messageid)
-    if (isvalid){
-        let sucsesscode= await bcrypt.hash((secretkey+username[2]+messageid[1]),13)
-        messegeback.premitivecookie=sucsesscode
+    let decodedverifycode=req.decodedToken.id
+    let messegeback=req.body
+    let {verifycode}=req.body
+    if (decodedverifycode==verifycode){
+        
         messegeback.result='Varified, create password.'
         res.json(messegeback);
-    }else if (!is2){
+    }else {
         messegeback.result='Not varified, try again'
         res.json(messegeback); 
-    }else if (is2){
-        messegeback.result='failed 3 times. going back to singup'
-        res.json(messegeback); 
     }
-
 }
 
-module.exports.signupcreateuser_post=async (req,res)=>{
-    let{username,email,password,premitivecookie,messageid}=req.body
-    let veryfy= await bcrypt.compare((secretkey+username[2]+messageid[1]),premitivecookie)
-    if (veryfy){
+module.exports.signupsetaccount_post=async (req,res)=>{
+    let messegeback={}
+    let{username,email,password,action,verifycode,cart,groceries,recipes}=req.body
+    console.log(req.body)
+    let decodedverifycode=req.decodedToken.id
+    if (verifycode==decodedverifycode){
+        if (action=='reset password'){
+            
+            let user=await User.findOne({ email: email });
+            if (user){
+                username=user.username
+                cart=user.cart
+                groceries=user.groceries
+                cart=user.cart
+                recipes=user.recipes
+                await User.findOneAndDelete({ email: email });
+            }else{
+                messegeback.result="User doesn't exist."
+                return res.json(messegeback);
+
+            }
+
+        }
         let hashedpassword= await bcrypt.hash(password,13)
         let newuser= new User({
             username:username,
             password:hashedpassword,
             email:email,
+            groceries,
+            cart,
+            recipes
         })
         newuser.save()
             .then((result)=>{
-                let messegeback={}
-                messegeback.result='Varified, creating a User'
-                ///////create token 
-                let token= createtoken(newuser._id)
+                let token= createtoken(newuser._id,maxAge)
                 res.cookie('jwt',token,{httpOnly:true, maxAge:maxAge*1000})
+                messegeback.result='Varified,action completed.'
                 res.json(messegeback);
             })
             .catch((err)=>console.log(err))
+    
+    }else{
+        messegeback.result='Something went wrong'
+        res.json(messegeback);
     }
 }
+    
 
-module.exports.changepassword_post= async (req, res) => {
-    let{username,password,premitivecookie,messageid}=req.body
-    let veryfy= await bcrypt.compare((secretkey+username[2]+messageid[1]),premitivecookie)
-    try {
-        let messegeback = {};
-        if (veryfy) {
-            
-            let user = await User.findOne({ username: username });
 
-            if (!user) {
-                // Handle the case where the user is not found
-                messegeback.result = 'User not found.';
-                res.json(messegeback);
-                return;
-            }
-
-            let name = user.username;
-            let pass = user.password;
-            let mail = user.email;
-            let previous = user.previousmails;
-
-            let check = 0;
-
-            for (let pas of previous) {
-                let isvalid = await bcrypt.compare(password, pas);
-
-                if (isvalid) {
-                    messegeback.result = 'previous password.';
-                    res.json(messegeback);
-                    check = 1;
-                    break;
-                }
-            }
-
-            if (check === 0) {
-                let isvalid = await bcrypt.compare(password, pass);
-                if (isvalid) {
-                    messegeback.result = 'previous password.';
-                    res.json(messegeback);
-                } else {
-                    await User.findOneAndDelete({ username: name });
-
-                    previous.push(pass);
-                    let newhashedpass= await bcrypt.hash(password,13)
-                    let newUser = new User({
-                        username: name,
-                        password: newhashedpass,
-                        email: mail,
-                        previousmails: previous
-                    });
-
-                    await newUser.save();
-                    messegeback.result = 'new password saved';
-                    res.json(messegeback);
-                }
-            }
-        }
-    } catch (err) {
-        console.error(err);
-        // Handle other errors if needed
-        res.status(500).json({ error: 'Internal server error' });
-    }
-}
 
 module.exports.trytologin_post= async (req, res) => {
     let {username, password}= req.body;
@@ -296,7 +261,7 @@ module.exports.trytologin_post= async (req, res) => {
                 let isvalid = await bcrypt.compare(password, user.password);
                 if (isvalid) {
                 ///////create token 
-                let token= createtoken(user._id)
+                let token= createtoken(user._id,maxAge)
                 res.cookie('jwt',token,{httpOnly:true, maxAge:maxAge*1000})
                 messegeback.result='login sucessful. Retrieving your data'
                 messegeback.username=user.username

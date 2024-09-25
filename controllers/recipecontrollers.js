@@ -8,17 +8,21 @@ async function getrecipes(req){
   let userid=req.decodedToken.id
   let user=await User.findOne({_id:userid})
   let username=user.username
+  let email=user.email
+  let groceries=user.groceries
+  let cart=user.cart
+  let usercopy={username,email,groceries,cart}
   //upload recipes
-  let {recipe}= await createrecipeSchema(username);
-  return(recipe)
+  let {Recipe}= await createrecipeSchema(username);
+  return{Recipe,usercopy}
 }
 
 
 module.exports.retrieverecipe_post= async (req, res) => {
-    let Recipe=await getrecipes(req)
+    let {Recipe,usercopy}=await getrecipes(req)
     Recipe.find()
         .then (recipes=>{
-          res.json({recipes});})
+          res.json({recipes,usercopy});})
         .catch(err => console.log(err));
   
 }
@@ -37,11 +41,11 @@ module.exports.logoutfromuser_delete= (req, res) => {
 }
 
 module.exports.updatedata_post=async (req,res)=>{
-    let Recipe=await getrecipes(req)
+    let {Recipe}=await getrecipes(req)
     const {changes}=req.body;
     changes.forEach(change => {
-      let changeid=change[1].Id
-      Recipe.findOneAndDelete({Id: changeid})
+      let changelink=change[1].link
+      Recipe.findOneAndDelete({link: changelink})
         .then(data=>{
           if (change[0]!='DELETE'){
             let recipe= new Recipe(change[1])
@@ -55,11 +59,12 @@ module.exports.updatedata_post=async (req,res)=>{
 }
   
 module.exports.updategroceries_post= async (req, res) => {
-  let{username,groceries}=req.body
+  let{username,groceries,cart}=req.body
   
     let messegeback = {};
     
-    let user = await User.findOne({ username: username });
+    let userid=req.decodedToken.id
+    let user=await User.findOne({_id:userid})
 
     if (!user) {
         // Handle the case where the user is not found
@@ -79,7 +84,8 @@ module.exports.updategroceries_post= async (req, res) => {
           password: pass,
           email: mail,
           previousmails: previous,
-          groceries:groceries
+          groceries:groceries,
+          cart:cart
       });
 
       await newUser.save();
