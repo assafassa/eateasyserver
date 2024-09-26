@@ -28,4 +28,4 @@ const puppeteer=require('puppeteer')
     }
 }
 
-module.exports=searchRecipes
+module.exports={searchRecipes}
