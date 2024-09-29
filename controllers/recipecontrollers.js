@@ -41,11 +41,12 @@ module.exports.logoutfromuser_delete= (req, res) => {
 }
 
 module.exports.updatedata_post=async (req,res)=>{
+    console.log('updating')
     let {Recipe}=await getrecipes(req)
     const {changes}=req.body;
     changes.forEach(change => {
-      let changelink=change[1].link
-      Recipe.findOneAndDelete({link: changelink})
+      let changehref=change[1].href
+      Recipe.findOneAndDelete({href: changehref})
         .then(data=>{
           if (change[0]!='DELETE'){
             let recipe= new Recipe(change[1])
@@ -77,9 +78,11 @@ module.exports.updategroceries_post= async (req, res) => {
       let pass = user.password;
       let mail = user.email;
       let previous = user.previousmails;
+      let userid=user._id
       await User.findOneAndDelete({ username: name });
 
       let newUser = new User({
+          _id:userid,
           username: name,
           password: pass,
           email: mail,

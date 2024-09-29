@@ -5,11 +5,11 @@ let recipeSchema=new Schema({
         type: String,
         required:true
     },
-    photolink: {
+    photosrc: {
         type: String,
         required:false
     },
-    link: {
+    href: {
         type: String,
         required:true
     },
