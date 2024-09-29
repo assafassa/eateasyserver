@@ -157,12 +157,12 @@ module.exports.signupverifymail_post=async (req,res)=>{
         port: 587,  
         secure: false,
         auth: {
-          user: 'EatEasyApp@outlook.co.il',
+          user: 'eatissoeasywitheateasy@outlook.co.il',
           pass: '1989ASSAFliel',
         },
       });
     transporter.sendMail({
-        from: 'EatEasyApp@outlook.co.il',
+        from: 'eatissoeasywitheateasy@outlook.co.il',
         to:email,
         subject:'Verification Code for Eat Easy App',
         html:mailhtml,
