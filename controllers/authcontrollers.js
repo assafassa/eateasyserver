@@ -172,7 +172,7 @@ module.exports.signupverifymail_post=async (req,res)=>{
             
             messegeback.result='messege sent'
             let token= createtoken(randomverifycode,600)
-            res.cookie('jwt',token,{httpOnly:true, maxAge:600*1000})
+            res.cookie('jwt',token,{httpOnly:false, maxAge:600*1000})
             res.json(messegeback);
             
         }else{
@@ -234,7 +234,7 @@ module.exports.signupsetaccount_post=async (req,res)=>{
         newuser.save()
             .then((result)=>{
                 let token= createtoken(newuser._id,maxAge)
-                res.cookie('jwt',token,{httpOnly:true, maxAge:maxAge*1000})
+                res.cookie('jwt',token,{httpOnly:false, maxAge:maxAge*1000})
                 messegeback.result='Varified,action completed.'
                 res.json(messegeback);
             })
@@ -262,7 +262,7 @@ module.exports.trytologin_post= async (req, res) => {
                 if (isvalid) {
                 ///////create token 
                 let token= createtoken(user._id,maxAge)
-                res.cookie('jwt',token,{httpOnly:true, maxAge:maxAge*1000})
+                res.cookie('jwt',token,{httpOnly:false, maxAge:maxAge*1000})
                 messegeback.result='login sucessful. Retrieving your data'
                 messegeback.username=user.username
                 }else if (!isvalid){

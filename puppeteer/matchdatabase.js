@@ -1,7 +1,7 @@
 const puppeteer=require('puppeteer')
 
 
- async function findingredientid(searchstring){
+async function findingredientid(searchstring){
     const browser=await puppeteer.launch()
     const page=await browser.newPage()
     await page.setViewport({ width: 1920, height: 2000 });
@@ -31,4 +31,6 @@ async function logthem (){
     x=await findingredientid('prepared+graham+cracker+crust')
     console.log(x)
 }
-logthem()
+
+
+module.exports = {findingredientid}

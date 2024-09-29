@@ -12,11 +12,13 @@ const corsOptions = {
   credentials: true,
   allowedHeaders: "Content-Type,Authorization"
 };
+
 app.use(cors(corsOptions));
 app.use(express.json());
 const recipesRoutes=require('./routes/recipesRoutes');
 const searchRoutes=require('./routes/searchRoutes');
 const signupRoutes=require('./routes/signupRoutes');
+const groceriesRoutes=require('./routes/groceriesRoutes');
 const dbURI= 'mongodb+srv://assafas1412:QH0j0YCn6NmhNJ1x@easyeat.7liyu.mongodb.net/test?retryWrites=true&w=majority&appName=easyeat';
 const cookieParser=require('cookie-parser');
 app.use(cookieParser());
@@ -39,3 +41,4 @@ app.post('/trytologin',authController.trytologin_post);
 app.use('/signup',signupRoutes);
 app.use('/recipes',recipesRoutes);
 app.use('/search',searchRoutes);
+app.use('/groceries',groceriesRoutes);

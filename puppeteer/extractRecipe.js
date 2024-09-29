@@ -36,7 +36,7 @@ const puppeteer=require('puppeteer')
     await browser.close()
     return(recipeHead)
 }
-//module.exports=extractRecipe
+module.exports = {extractRecipe}
 
 const hreflist=[        
     {      
@@ -142,10 +142,10 @@ const hreflist=[
 ]
 
 
-async function logthem (){
-    for (const result of hreflist) {
-        const recipe = await extractRecipe(result.href);
-        console.log(recipe['directions']);
-    }
-}
-logthem()
+// async function logthem (){
+//     for (const result of hreflist) {
+//         const recipe = await extractRecipe(result.href);
+//         console.log(recipe['directions']);
+//     }
+// }
+// logthem()
