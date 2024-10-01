@@ -153,16 +153,17 @@ module.exports.signupverifymail_post=async (req,res)=>{
     
     let messegeback={}
     let transporter = nodemailer.createTransport({
-        host: 'smtp-mail.outlook.com', 
-        port: 587,  
-        secure: false,
+        host: 'smtp.zoho.com', // Use this for Outlook
+        port: 587, // Use 587 for TLS
+        secure:false, // Use false for TLS (STARTTLS)
         auth: {
-          user: 'eatissoeasywitheateasy@outlook.co.il',
-          pass: '1989ASSAFliel',
+          user: 'eateasyapp@zohomail.com', // Your full Outlook email address
+          pass: '1989ASSAFliel', // Use your password (or App Password if 2FA is on)
         },
+        
       });
     transporter.sendMail({
-        from: 'eatissoeasywitheateasy@outlook.co.il',
+        from: 'eateasyapp@zohomail.com',
         to:email,
         subject:'Verification Code for Eat Easy App',
         html:mailhtml,
@@ -212,8 +213,8 @@ module.exports.signupsetaccount_post=async (req,res)=>{
                 username=user.username
                 cart=user.cart
                 groceries=user.groceries
-                cart=user.cart
                 recipes=user.recipes
+                userid=user.id
                 await User.findOneAndDelete({ email: email });
             }else{
                 messegeback.result="User doesn't exist."

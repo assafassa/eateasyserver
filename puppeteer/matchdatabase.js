@@ -4,7 +4,7 @@ const puppeteer=require('puppeteer')
 async function findingredientid(searchstring){
     const browser=await puppeteer.launch()
     const page=await browser.newPage()
-    await page.setViewport({ width: 1920, height: 2000 });
+    await page.setViewport({ width: 1920, height: 1000 });
     await page.goto(`https://www.foodb.ca/unearth/q?utf8=%E2%9C%93&query=${searchstring}&searcher=foods&button=`)
     const databaseid=await page.$$eval('body > main > div.unearth-search-results.unearth-food-search-results>div', (results) => {
         return results.map(x=>{
@@ -20,17 +20,17 @@ async function findingredientid(searchstring){
         })
     })
     await browser.close()
-    if (databaseid.length==0){
-        return('ingrident doesnt found in database')
-    }else{
+    
     return(databaseid)
-    }
+    
 }
 
-async function logthem (){
-    x=await findingredientid('prepared+graham+cracker+crust')
-    console.log(x)
+async function listfindingredientid(ingredients) {
+    const ingredientIds = await Promise.all(ingredients.map(async (ingredient) => {
+        return await findingredientid(ingredient);
+    }));
+    return ingredientIds;
 }
 
 
-module.exports = {findingredientid}
+module.exports = {findingredientid,listfindingredientid}

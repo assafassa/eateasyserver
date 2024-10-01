@@ -5,4 +5,5 @@ const { requireAuth } = require('../middleware/authmiddleware');
 
 router.post('/searchgroceries', groceriesController.groceries_post);
 
+router.post('/searchgrocerieslist', groceriesController.grocerieslist_post);
 module.exports = router;
