@@ -158,7 +158,7 @@ module.exports.signupverifymail_post=async (req,res)=>{
         secure:false, // Use false for TLS (STARTTLS)
         auth: {
           user: 'eateasyapp@zohomail.com', // Your full Outlook email address
-          pass: '1989ASSAFliel', // Use your password (or App Password if 2FA is on)
+           // Use your password (or App Password if 2FA is on)
         },
         
       });
