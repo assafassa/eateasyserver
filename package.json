@@ -3,11 +3,11 @@
   "version": "1.0.0",
   "description": "",
   "main": "app.js",
-  
   "scripts": {
     "install:chrome": "npx puppeteer install",
     "start": "node app.js",
-    "postinstall": "npm run install:chrome"
+    "postinstall": "npm run install:chrome",
+    "build": "npm install"  
   },
   "author": "",
   "license": "ISC",
