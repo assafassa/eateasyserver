@@ -27,6 +27,7 @@ async function findingredientid(searchstring){
 
 async function listfindingredientid(ingredients) {
     const ingredientIds = await Promise.all(ingredients.map(async (ingredient) => {
+        
         return await findingredientid(ingredient);
     }));
     return ingredientIds;

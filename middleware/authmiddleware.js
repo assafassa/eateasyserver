@@ -4,6 +4,7 @@ const secretkey='sKt408oGhEDVcX/su8oRkehvMoUkXvFtkkcvJdoNpqKO9ycQ.h0vIKA2s5QF0AV
 
 const requireAuth =(req,res,next)=>{
     const stringtoken=req.cookies.jwt;
+    console.log(stringtoken)
     const token = stringtoken.split(',')[0]
     console.log(token)
     if(token){

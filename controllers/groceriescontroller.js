@@ -15,8 +15,8 @@ module.exports.groceries_post = async (req, res) => {
 
 module.exports.grocerieslist_post = async (req, res) => {
   try {
-    let { stringInputlist } = req.body;
-    let groceriesSearchResults = await listfindingredientid(stringInputlist);
+    let { stringInputList } = req.body;
+    let groceriesSearchResults = await listfindingredientid(stringInputList);
     console.log(groceriesSearchResults);
     res.json({ groceriesSearchResults });
   } catch (error) {
