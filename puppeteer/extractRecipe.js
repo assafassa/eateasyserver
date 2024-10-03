@@ -2,10 +2,15 @@ const puppeteer=require('puppeteer')
 
  async function extractRecipe(recipeUrl){
     
-    const browser=await puppeteer.launch()
+  const browser = await puppeteer.launch({
+      headless: true, // Run in headless mode
+      args: ['--no-sandbox', '--disable-setuid-sandbox'], // Add these arguments for server environments
+  });
     const page=await browser.newPage()
     await page.setViewport({ width: 1920, height: 5080 });
-    await page.goto(recipeUrl)
+    await page.goto(recipeUrl, {
+      waitUntil: 'networkidle2', // Wait for the network to be idle
+    });
     const recipeHead=await page.$eval('body > main > article', (article) => {
         return({
         title: article.querySelector("h1").textContent,
