@@ -281,8 +281,10 @@ module.exports.trytologin_post= async (req, res) => {
   
 }
 
-module.exports.autorobot= async (req, res) => {  
-            res.json("thamk you"); 
-  
-}
-
+module.exports.autorobot = async (req, res) => {  
+    // Set any custom headers here, if needed
+    res.set('thanks', 'robot');
+    
+    // End the response without sending a body (as expected for a HEAD request)
+    res.status(200).end(); 
+};

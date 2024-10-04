@@ -35,7 +35,7 @@ mongoose.connect(dbURI, { useNewUrlParser: true, useUnifiedTopology: true })
 app.set('view engine', 'ejs')
 app.use(express.static('public'))
 
-app.get('/',authController.autorobot);
+app.head('/',authController.autorobot);
 app.post('/trytologin',authController.trytologin_post);
   
 app.use('/signup',signupRoutes);
