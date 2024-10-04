@@ -1,8 +1,9 @@
 const puppeteer=require('puppeteer')
 //search
  async function searchRecipes(searchtype){
+    console.log('Puppeteer Chrome Executable Path:', puppeteer.executablePath());
     const browser = await puppeteer.launch({
-        executablePath: '/opt/render/.cache/puppeteer/chrome',
+        
         args: ['--no-sandbox', '--disable-setuid-sandbox'],
         headless: true,
       });
