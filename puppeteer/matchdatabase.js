@@ -1,7 +1,7 @@
 const puppeteer=require('puppeteer')
 
 
-async function findingredientid(searchstring){
+async function findingredientid(searchstring,height){
     const browser = await puppeteer.launch({
         executablePath: process.env.NODE_ENV==='production' ?process.env.PUPPETEER_EXCUTABLE_PATH
             : puppeteer.executablePath() ,   
@@ -9,7 +9,7 @@ async function findingredientid(searchstring){
                 args: ['--no-sandbox', '--disable-setuid-sandbox','--single-process','--no-zygote']
             });
     const page=await browser.newPage()
-    await page.setViewport({ width: 800, height: 400 });
+    await page.setViewport({ width: 800, height: height });
     await page.goto(`https://www.foodb.ca/unearth/q?utf8=%E2%9C%93&query=${searchstring}&searcher=foods&button=`, {
         waitUntil: 'networkidle2', // Wait for the network to be idle
     });
@@ -35,7 +35,7 @@ async function findingredientid(searchstring){
 async function listfindingredientid(ingredients) {
     const ingredientIds = await Promise.all(ingredients.map(async (ingredient) => {
         
-        return await findingredientid(ingredient);
+        return await findingredientid(ingredient,300);
     }));
     return ingredientIds;
 }

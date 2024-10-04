@@ -10,7 +10,7 @@ const puppeteer=require('puppeteer')
             });
     const page=await browser.newPage()
     
-    await page.setViewport({ width: 1920, height: 5080 });
+    await page.setViewport({ width: 1000, height: 2000 });
     await page.goto(recipeUrl, {
       waitUntil: 'networkidle2', // Wait for the network to be idle
     });
