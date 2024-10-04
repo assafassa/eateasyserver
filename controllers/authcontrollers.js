@@ -281,3 +281,8 @@ module.exports.trytologin_post= async (req, res) => {
   
 }
 
+module.exports.autorobot= async (req, res) => {  
+            res.json("thamk you"); 
+  
+}
+
