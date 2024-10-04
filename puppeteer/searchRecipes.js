@@ -1,7 +1,10 @@
 const puppeteer=require('puppeteer')
 //search
  async function searchRecipes(searchtype){
-   
+    const cacheDir = '/opt/render/.cache/puppeteer/chrome';
+    console.log('Checking cache directory:', cacheDir);
+    const files = fs.readdirSync(cacheDir);
+    console.log('Files in cache directory:', files);
     
     const browser = await puppeteer.launch({
         headless: true, // Ensure it runs in headless mode
