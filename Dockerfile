@@ -1,6 +1,6 @@
+
 FROM node:18-slim
 
-# Install necessary packages for Puppeteer and Chrome
 RUN apt-get update && \
   apt-get install -y \
   ca-certificates \
@@ -43,17 +43,11 @@ RUN apt-get update && \
   --no-install-recommends && \
   rm -rf /var/lib/apt/lists/*
 
-# Set the working directory
 WORKDIR /app
 
-# Copy package.json and package-lock.json (if present)
 COPY package*.json ./
-
-# Install the Node.js dependencies
 RUN npm install
+COPY . ./
 
-# Copy the rest of the application files
-COPY . .
 
-# Specify the command to run your application
 CMD ["node", "app.js"]
