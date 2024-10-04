@@ -4,9 +4,9 @@
   "description": "",
   "main": "app.js",
   "scripts": {
-      "install:chrome": "npx puppeteer browsers install chrome",
-      "postinstall": "npm run install:chrome",
-      "start": "node app.js"
+    "install:chrome": "npx puppeteer browsers install chrome",
+    "postinstall": "npm run install:chrome",
+    "start": "node app.js"
   },
   "author": "",
   "license": "ISC",
@@ -23,7 +23,6 @@
     "mongoose": "^8.0.2",
     "morgan": "^1.10.0",
     "nodemailer": "^6.9.7",
-    "puppeteer": "^23.4.1",
-    "puppeteer-core": "^23.5.0"
+    "puppeteer": "^23.5.0"
   }
 }
