@@ -6,8 +6,8 @@
   "scripts": {
     "install:chrome": "npx puppeteer install",
     "start": "node app.js",
-    "postinstall": "npx puppeteer browsers install chrome",
-    "build": "npm install"  
+    "postinstall": "npm run install:chrome",
+    "build": "npm install && npm run build"  
   },
   "author": "",
   "license": "ISC",

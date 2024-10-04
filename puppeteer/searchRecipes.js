@@ -2,6 +2,7 @@ const puppeteer=require('puppeteer')
 //search
  async function searchRecipes(searchtype){
     const browser = await puppeteer.launch({
+        defaultViewport: null, 
         headless: true, // Run in headless mode
         args: ['--no-sandbox', '--disable-setuid-sandbox'], // Add these arguments for server environments
     });

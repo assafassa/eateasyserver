@@ -3,6 +3,7 @@ const puppeteer=require('puppeteer')
 
 async function findingredientid(searchstring){
     const browser = await puppeteer.launch({
+        defaultViewport: null, 
         headless: true, // Run in headless mode
         args: ['--no-sandbox', '--disable-setuid-sandbox'], // Add these arguments for server environments
     });
