@@ -2,8 +2,9 @@ const puppeteer=require('puppeteer')
 //search
  async function searchRecipes(searchtype){
     const browser = await puppeteer.launch({
-        args: ['--no-sandbox', '--disable-setuid-sandbox'], // These options prevent issues with sandboxing
-        headless: true, // Ensures headless mode for cloud environments
+        executablePath: '/opt/render/.cache/puppeteer/chrome',
+        args: ['--no-sandbox', '--disable-setuid-sandbox'],
+        headless: true,
       });
     const page=await browser.newPage()
     await page.setUserAgent("Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36")
