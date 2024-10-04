@@ -53,7 +53,7 @@ async function listfindingredientid(ingredients) {
         try {
             // Navigate to the search page for each ingredient
             await page.goto(`https://www.foodb.ca/unearth/q?utf8=%E2%9C%93&query=${ingredient}&searcher=foods&button=`, {
-                waitUntil: 'networkidle0', // Wait for no network requests for 500ms
+                 // Wait for no network requests for 500ms
                 timeout: 10000 // Adjust timeout if needed
             });
 
@@ -67,11 +67,14 @@ async function listfindingredientid(ingredients) {
                             hitname: data[1].textContent.trim()
                         };
                     } else {
-                        return [];
+                        return undefined;
                     }
                 });
             });
 
+            // Filter out undefined values from the result and add to the list
+            const filteredResult = result.filter(item => item !== undefined);
+            ingredientIds.push(...filteredResult);  // Add the filtered result to the ingredientIds list
 
         } catch (error) {
             console.error(`Error fetching ingredient "${ingredient}":`, error);
