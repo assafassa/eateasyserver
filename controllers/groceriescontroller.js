@@ -3,7 +3,7 @@ const { findingredientid,listfindingredientid } = require("../puppeteer/matchdat
 module.exports.groceries_post = async (req, res) => {
   try {
     let { stringInput } = req.body;
-    let groceriesSearchResults = await findingredientid(stringInput,600);
+    let groceriesSearchResults = await findingredientid(stringInput,600,60000);
     console.log(groceriesSearchResults);
     res.json({ groceriesSearchResults });
   } catch (error) {
