@@ -2,10 +2,9 @@ const puppeteer=require('puppeteer')
 //search
  async function searchRecipes(searchtype){
     const browser = await puppeteer.launch({
-        defaultViewport: null, 
-        headless: true, // Run in headless mode
-        args: ['--no-sandbox', '--disable-setuid-sandbox'], // Add these arguments for server environments
-    });
+        args: ['--no-sandbox', '--disable-setuid-sandbox'], // These options prevent issues with sandboxing
+        headless: true, // Ensures headless mode for cloud environments
+      });
     const page=await browser.newPage()
     await page.setViewport({ width: 1920, height: 5000 });
     await page.goto(`https://www.allrecipes.com/search?q=${searchtype}`, {

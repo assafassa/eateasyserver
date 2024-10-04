@@ -1,13 +1,10 @@
-/**
- * @type {import("puppeteer").Configuration}
- */
 module.exports = {
-    // Download Chrome (default `skipDownload: false`).
+    cacheDirectory: '/opt/render/.cache/puppeteer',
     chrome: {
       skipDownload: false,
     },
-    // Download Firefox (default `skipDownload: true`).
     firefox: {
       skipDownload: false,
     },
   };
+  

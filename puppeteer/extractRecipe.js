@@ -2,11 +2,10 @@ const puppeteer=require('puppeteer')
 
  async function extractRecipe(recipeUrl){
     
-  const browser = await puppeteer.launch({
-     defaultViewport: null, 
-      headless: true, // Run in headless mode
-      args: ['--no-sandbox', '--disable-setuid-sandbox'], // Add these arguments for server environments
-  });
+    const browser = await puppeteer.launch({
+        args: ['--no-sandbox', '--disable-setuid-sandbox'], // These options prevent issues with sandboxing
+        headless: true, // Ensures headless mode for cloud environments
+      });
     const page=await browser.newPage()
     await page.setViewport({ width: 1920, height: 5080 });
     await page.goto(recipeUrl, {
