@@ -1,12 +1,19 @@
 const puppeteer=require('puppeteer')
 const fs = require('fs');
+const path = require('path');
 //search
  async function searchRecipes(searchtype){
     const cacheDir = '/opt/render/.cache/puppeteer/chrome';
-    console.log('Checking cache directory:', cacheDir);
+
+    // Check if the cache directory exists
+    if (!fs.existsSync(cacheDir)) {
+        console.error(`Cache directory does not exist: ${cacheDir}`);
+        return; // Exit the function early
+    }
+
     const files = fs.readdirSync(cacheDir);
-    console.log('Files in cache directory:', files);
-    
+    console.log('Cache files:', files);
+
     const browser = await puppeteer.launch({
         headless: true, // Ensure it runs in headless mode
         executablePath: '/opt/render/.cache/puppeteer/chrome/linux-129.0.6668.89/chrome-linux64/chrome', // Explicit path to Chrome
