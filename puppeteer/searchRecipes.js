@@ -9,7 +9,7 @@ require("dotenv").config()
                 args: ['--no-sandbox', '--disable-setuid-sandbox','--single-process','--no-zygote']
             });
     const page=await browser.newPage()
-    await page.setViewport({ width: 1000, height: 2000 });
+    await page.setViewport({ width: 1000, height: 3000 });
     await page.goto(`https://www.allrecipes.com/search?q=${searchtype}`, {
         waitUntil: 'networkidle2', // Wait for the network to be idle
     });

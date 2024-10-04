@@ -11,7 +11,7 @@ async function findingredientid(searchstring,height){
     const page=await browser.newPage()
     await page.setViewport({ width: 800, height: height });
     await page.goto(`https://www.foodb.ca/unearth/q?utf8=%E2%9C%93&query=${searchstring}&searcher=foods&button=`, {
-        waitUntil: 'networkidle2', // Wait for the network to be idle
+         // Wait for the network to be idle
     });
     const databaseid=await page.$$eval('body > main > div.unearth-search-results.unearth-food-search-results>div', (results) => {
         return results.map(x=>{
