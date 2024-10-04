@@ -74,7 +74,7 @@ async function listfindingredientid(ingredients) {
 
             // Filter out undefined values from the result and add to the list
             const filteredResult = result.filter(item => item !== undefined);
-            ingredientIds.push(...filteredResult);  // Add the filtered result to the ingredientIds list
+            ingredientIds.push(filteredResult);  // Add the filtered result to the ingredientIds list
 
         } catch (error) {
             console.error(`Error fetching ingredient "${ingredient}":`, error);
