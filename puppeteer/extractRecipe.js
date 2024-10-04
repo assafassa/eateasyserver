@@ -7,6 +7,7 @@ const puppeteer=require('puppeteer')
         headless: true, // Ensures headless mode for cloud environments
       });
     const page=await browser.newPage()
+    
     await page.setViewport({ width: 1920, height: 5080 });
     await page.goto(recipeUrl, {
       waitUntil: 'networkidle2', // Wait for the network to be idle

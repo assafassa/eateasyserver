@@ -6,6 +6,7 @@ const puppeteer=require('puppeteer')
         headless: true, // Ensures headless mode for cloud environments
       });
     const page=await browser.newPage()
+    await page.setUserAgent("Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36")
     await page.setViewport({ width: 1920, height: 5000 });
     await page.goto(`https://www.allrecipes.com/search?q=${searchtype}`, {
         waitUntil: 'networkidle2', // Wait for the network to be idle
