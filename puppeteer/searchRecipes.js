@@ -3,8 +3,10 @@ require("dotenv").config()
 //search
  async function searchRecipes(searchtype){
     const browser = await puppeteer.launch({
-                headless: true,
-                args: ['--no-sandbox', '--disable-setuid-sandbox']
+        executablePath: process.env.NODE_ENV==='production' ?process.env.PUPPETEER_EXCUTABLE_PATH
+            : puppeteer.executablePath() ,   
+            headless: true,
+                args: ['--no-sandbox', '--disable-setuid-sandbox','--single-process','--no-zygote']
             });
     const page=await browser.newPage()
     await page.setViewport({ width: 1920, height: 5000 });
