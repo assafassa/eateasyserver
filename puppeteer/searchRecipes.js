@@ -1,13 +1,14 @@
 const puppeteer=require('puppeteer')
 //search
  async function searchRecipes(searchtype){
-    console.log("here")
+   
     
     const browser = await puppeteer.launch({
-        
-        args: ['--no-sandbox', '--disable-setuid-sandbox'],
-        headless: true,
-      });
+        headless: true, // Ensure it runs in headless mode
+        executablePath: '/opt/render/.cache/puppeteer/chrome/linux-129.0.6668.89/chrome-linux64/chrome', // Explicit path to Chrome
+        args: ['--no-sandbox', '--disable-setuid-sandbox'], // Important for environments like Render
+    });
+    console.log("here")
     console.log('Using Chrome executable path:', puppeteer.executablePath());
     const page=await browser.newPage()
     await page.setUserAgent("Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36")
